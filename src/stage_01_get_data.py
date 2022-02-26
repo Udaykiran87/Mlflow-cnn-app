@@ -20,14 +20,12 @@ logging.basicConfig(
 def main(config_path, params_path):
     ## read config files
     config = read_yaml(config_path)
-    print(config)
-    # URL = config["data"]["source_url"]
-    # local_dir_path = config["data"]["local_dir"]
-    # create_directories([local_dir_path])
+    URL = config["data"]["source_url"]
+    local_dir_path = config["data"]["local_dir"]
+    create_directories([local_dir_path])
 
     data_file = config["data"]["data_file"]
-    params = read_yaml(params_path)
-    pass
+    data_file_path = os.path.join(local_dir_path, data_file)
 
 
 if __name__ == '__main__':
