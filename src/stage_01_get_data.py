@@ -27,6 +27,12 @@ def main(config_path, params_path):
     data_file = config["data"]["data_file"]
     data_file_path = os.path.join(local_dir_path, data_file)
 
+    if not os.path.isfile(data_file_path):
+        logging.info("downloading started...")
+        filename, headers = req.urlretrieve(URL, data_file_path)
+        logging.info(f"filename:{filename} created with info \n{headers}")
+    else:
+        logging.info(f"filename:{data_file} already present")
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
