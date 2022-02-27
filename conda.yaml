@@ -62,4 +62,3 @@ dependencies:
     - zipp==3.7.0
     - Pillow==9.0.1
     - tensorflow==2.8.0
-prefix: C:\INEURON\DL\MLFlow_cnn_app1\Mlflow-cnn-app\env
