@@ -6,6 +6,7 @@ import logging
 from src.utils.common import read_yaml, create_directories
 import random
 import tensorflow as tf
+import mlflow
 
 
 STAGE = "Training" ## <<< change stage name
@@ -21,31 +22,31 @@ logging.basicConfig(
 def main(config_path, params_path):
     ## read config files
     config = read_yaml(config_path)
-    param = config["params"]
+    params = config["params"]
 
     ## get ready the data
     PARENT_DIR = os.path.join(config["data"]["unzip_data_dir"], config["data"]["parent_data_dir"])
 
     train_ds = tf.keras.preprocessing.image_dataset_from_directory(
         PARENT_DIR,
-        validation_split=param["validation_split"],
+        validation_split=params["validation_split"],
         subset="training",
-        seed=param["seed"],
-        image_size=param["img_shape"][:-1],
-        batch_size=param["batch_size"]
+        seed=params["seed"],
+        image_size=params["img_shape"][:-1],
+        batch_size=params["batch_size"]
     )
 
     val_ds = tf.keras.preprocessing.image_dataset_from_directory(
         PARENT_DIR,
-        validation_split=param["validation_split"],
+        validation_split=params["validation_split"],
         subset="validation",
-        seed=param["seed"],
-        image_size=param["img_shape"][:-1],
-        batch_size=param["batch_size"]
+        seed=params["seed"],
+        image_size=params["img_shape"][:-1],
+        batch_size=params["batch_size"]
     )
 
-    train_ds = train_ds.prefetch(buffer_size=param["buffer_size"])
-    val_ds = val_ds.prefetch(buffer_size=param["buffer_size"])
+    train_ds = train_ds.prefetch(buffer_size=params["buffer_size"])
+    val_ds = val_ds.prefetch(buffer_size=params["buffer_size"])
 
     ## load the base model
     path_to_model = os.path.join(config["data"]["local_dir"], config["data"]["model_dir"], config["data"]["init_model_file"])
@@ -54,7 +55,7 @@ def main(config_path, params_path):
 
     ## training
     logging.info(f"training started")
-    classifier.fit(train_ds, epochs=param["epochs"], validation_data = val_ds)
+    classifier.fit(train_ds, epochs=params["epochs"], validation_data = val_ds)
 
     trained_model_file = os.path.join(
         config["data"]["local_dir"],
@@ -72,7 +73,6 @@ def main(config_path, params_path):
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", "-c", default="configs/config.yaml")
-    args.add_argument("--params", "-p", default="params.yaml")
     parsed_args = args.parse_args()
 
     try:
