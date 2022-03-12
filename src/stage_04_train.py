@@ -64,6 +64,10 @@ def main(config_path, params_path):
     classifier.save(trained_model_file)
     logging.info(f"trained model is saved at : {trained_model_file}")
 
+    with mlflow.start_run() as runs:
+        mlflow.log_params(params)
+        mlflow.keras.log_model(classifier, "model")
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
