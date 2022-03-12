@@ -48,9 +48,9 @@ def main(config_path):
     val_ds = val_ds.prefetch(buffer_size=params["buffer_size"])
 
     ## load the base model
-    # path_to_model = os.path.join(config["data"]["local_dir"], config["data"]["model_dir"], config["data"]["init_model_file"])
-    # logging.info(f"load the base model from {path_to_model}")
-    # classifier = tf.keras.models.load_model(path_to_model)
+    path_to_model = os.path.join(config["data"]["local_dir"], config["data"]["model_dir"], config["data"]["init_model_file"])
+    logging.info(f"load the base model from {path_to_model}")
+    classifier = tf.keras.models.load_model(path_to_model)
 
     ## training
     logging.info(f"training started")
