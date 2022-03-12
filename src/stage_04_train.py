@@ -19,7 +19,7 @@ logging.basicConfig(
     )
 
 
-def main(config_path, params_path):
+def main(config_path):
     ## read config files
     config = read_yaml(config_path)
     params = config["params"]
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     try:
         logging.info("\n********************")
         logging.info(f">>>>> stage {STAGE} started <<<<<")
-        main(config_path=parsed_args.config, params_path=parsed_args.params)
+        main(config_path=parsed_args.config)
         logging.info(f">>>>> stage {STAGE} completed!<<<<<\n")
     except Exception as e:
         logging.exception(e)
